@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Internship Registration - AceAI</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #2d1b69 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Stars Background */
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: falling-stars linear infinite;
+        }
+
+        .star:nth-child(odd) {
+            background: linear-gradient(45deg, #74b9ff, #6c5ce7);
+        }
+
+        .star:nth-child(even) {
+            background: linear-gradient(45deg, #fd79a8, #e84393);
+        }
+
+        @keyframes falling-stars {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: rgba(116, 185, 255, 0.15);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px rgba(116, 185, 255, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+            width: 40px;
+            object-fit: contain;
+            filter: brightness(1.2);
+        }
+
+        .form-hero {
+            padding: 120px 0 20px;
+            text-align: center;
+            background: rgba(244, 245, 247, 0.98);
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(116, 185, 255, 0.08), rgba(108, 92, 231, 0.08));
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .form-hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-weight: 700;
+            background: linear-gradient(135deg, #74b9ff 0%, #6c5ce7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-hero p {
+            font-size: 1.2rem;
+            color: #34495e;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            color: #00b894;
+            font-weight: bold;
+            background: rgba(0, 184, 148, 0.2);
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .highlight:hover {
+            transform: scale(1.05);
+        }
+
+        .content {
+            padding: 30px 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .form-section {
+            background: rgba(248, 249, 250, 0.98);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(116, 185, 255, 0.2);
+            animation: slideInLeft 1s ease-in-out;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(116, 185, 255, 0.2);
+            border-color: rgba(116, 185, 255, 0.4);
+        }
+
+        .form-section h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        }
+
+        .form-group.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #bdc3c7;
+            border-radius: 12px;
+            font-size: 1rem;
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            background: rgba(248, 249, 250, 0.9);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #74b9ff;
+            box-shadow: 0 0 0 4px rgba(116, 185, 255, 0.2);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .required {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #b0bec5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success-message,
+        .error-message {
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #d5f4e6, #e8f8f5);
+            color: #00b894;
+            border: 2px solid #00b894;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            color: #e17055;
+            border: 2px solid #e17055;
+        }
+
+        .program-details {
+            background: linear-gradient(135deg, rgba(116, 185, 255, 0.95) 0%, rgba(108, 92, 231, 0.95) 100%);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            color: white;
+            animation: slideInRight 1s ease-in-out;
+            backdrop-filter: blur(10px);
+        }
+
+        .program-details h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .benefits {
+            list-style: none;
+        }
+
+        .benefits li {
+            padding: 1rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .benefits li:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding-left: 10px;
+        }
+
+        .benefits li::before {
+            content: "✓";
+            color: #00b894;
+            font-weight: bold;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-hero h2 {
+                font-size: 2rem;
+            }
+
+            .form-hero p {
+                font-size: 1rem;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .form-section {
+                padding: 1rem;
+            }
+
+            .form-section:hover {
+                transform: none;
+            }
+
+            .program-details {
+                position: static;
+                padding: 1rem;
+                animation: fadeIn 1s ease-in-out;
+            }
+
+            .program-details h3 {
+                font-size: 1.5rem;
+            }
+
+            .benefits li {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .form-hero {
+                margin: 10px;
+                padding: 100px 15px 20px;
+            }
+
+            .form-section,
+            .program-details {
+                padding: 1rem;
+            }
+
+            .form-section h3,
+            .program-details h3 {
+                font-size: 1.4rem;
+            }
+
+            .form-group {
+                margin-bottom: 0.8rem;
+            }
+
+            .submit-btn {
+                padding: 0.8rem 1.5rem;
+            }
+
+            .logo img {
+                height: 30px;
+                width: 30px;
+            }
+
+            .logo span {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Stars Background -->
+    <div class="stars-container" id="starsContainer"></div>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">
+                <img src="images/logo__2__1_-removebg-preview.png" alt="AceAI Logo" style="height:60px;width:60px;">
+                <span>aceAI</span>
+            </a>
+        </nav>
+    </header>
+
+    <section class="form-hero">
+        <div class="container">
+            <h2>Internship Registration</h2>
+            <p>Join aceAI's industry-leading internship programs. <span class="highlight">Exclusive 50% discount for DSU students</span>.</p>
+        </div>
+    </section>
+
+    <section class="content">
+        <div class="container">
+            <div class="content-grid">
+                <div class="form-section">
+                    <h3>Registration Details</h3>
+                    <div class="success-message" id="successMessage">
+                        Registration successful! You will receive further instructions via email.
+                    </div>
+                    <div class="error-message" id="errorMessage">
+                        Please fill all required fields correctly.
+                    </div>
+                    <form id="internForm">
+                        <div class="form-group">
+                            <label for="name">Full Name <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number <span class="required">*</span></label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="college">College/University <span class="required">*</span></label>
+                            <input type="text" id="college" name="college" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="internship">Internship Program <span class="required">*</span></label>
+                            <select id="internship" name="internship" required>
+                                <option value="">Select a Program</option>
+                                <option value="python">Python Development</option>
+                                <option value="java">Java Development</option>
+                                <option value="machine-learning">Machine Learning</option>
+                                <option value="deep-learning">Deep Learning</option>
+                                <option value="generative-ai">Generative AI</option>
+                                <option value="agentic-ai">Agentic AI</option>
+                                <option value="full-stack web Development">Full Stack Web Development</option>
+                                <option value="Devops & cloud computing"> Devops & Cloud Computing</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="mode">Mode of Internship <span class="required">*</span></label>
+                            <select id="mode" name="mode" required>
+                                <option value="">Select Mode</option>
+                                <option value="online">Online</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submitBtn">Register Now</button>
+                    </form>
+                </div>
+                <div class="program-details">
+                    <h3>Program Benefits</h3>
+                    <ul class="benefits">
+                        <li>Industry-Aligned Curriculum</li>
+                        <li>Hands-On Project Experience</li>
+                        <li>Certificate of Completion</li>
+                        <li>Career Guidance & Placement Support</li>
+                        <li>Access to Premium Resources</li>
+                        <li>Discounted Fee for DSU Students: ₹3500</li>
+                    </ul>
+                    <div class="note">
+                        * Program fee: ₹7000<br>
+                        * Payment and DSU student verification required to confirm registration<br>
+                        * <span class="highlight">Exclusive 50% discount for DSU students</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Create animated stars
+        function createStars() {
+            const starsContainer = document.getElementById('starsContainer');
+            const numberOfStars = 50;
+
+            for (let i = 0; i < numberOfStars; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random size
+                const size = Math.random() * 4 + 2;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                
+                // Random animation duration
+                const duration = Math.random() * 15 + 10;
+                star.style.animationDuration = duration + 's';
+                
+                // Random delay
+                const delay = Math.random() * 5;
+                star.style.animationDelay = delay + 's';
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create floating particles
+        function createParticles() {
+            const body = document.body;
+            const numberOfParticles = 20;
+
+            for (let i = 0; i < numberOfParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 6 + 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                const duration = Math.random() * 4 + 4;
+                particle.style.animationDuration = duration + 's';
+                
+                const delay = Math.random() * 3;
+                particle.style.animationDelay = delay + 's';
+                
+                body.appendChild(particle);
+            }
+        }
+
+        // Form and section animations
+        function animateSections() {
+            const formSection = document.querySelector('.form-section');
+            const formGroups = document.querySelectorAll('.form-group');
+
+            formSection.classList.add('visible');
+            formGroups.forEach((group, index) => {
+                setTimeout(() => {
+                    group.classList.add('visible');
+                }, index * 100);
+            });
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createParticles();
+            animateSections();
+        });
+
+        // Form submission
+        document.getElementById('internForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Reset messages
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Collect form data
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                college: document.getElementById('college').value.trim(),
+                internship: document.getElementById('internship').value,
+                mode: document.getElementById('mode').value,
+                discount_applied: '50% DSU Student Discount'
+            };
+
+            // Basic validation
+            if (!formData.name || !formData.email || !formData.phone || !formData.college || !formData.internship || !formData.mode) {
+                errorMessage.textContent = 'Please fill all required fields.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Email validation
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(formData.email)) {
+                errorMessage.textContent = 'Please enter a valid email address.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Phone validation
+            const phonePattern = /^[0-9]{10}$/;
+            if (!phonePattern.test(formData.phone.replace(/\D/g, ''))) {
+                errorMessage.textContent = 'Please enter a valid 10-digit phone number.';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Disable button during submission
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/api/intern', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    document.getElementById('internForm').reset();
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error('Registration failed');
+                }
+            } catch (error) {
+                errorMessage.textContent = 'Registration failed. Please try again or contact support.';
+                errorMessage.style.display = 'block';
+                console.error('Registration error:', error);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Register Now';
+            }
+        });
+    </script>
+</body>
+</html>
