@@ -21,7 +21,6 @@
             position: relative;
         }
 
-        /* Animated Stars Background */
         .stars-container {
             position: fixed;
             top: 0;
@@ -65,7 +64,6 @@
             }
         }
 
-        /* Floating particles */
         .particle {
             position: absolute;
             background: rgba(116, 185, 255, 0.15);
@@ -497,7 +495,6 @@
     </style>
 </head>
 <body>
-    <!-- Animated Stars Background -->
     <div class="stars-container" id="starsContainer"></div>
 
     <header>
@@ -555,7 +552,7 @@
                                 <option value="generative-ai">Generative AI</option>
                                 <option value="agentic-ai">Agentic AI</option>
                                 <option value="full-stack web Development">Full Stack Web Development</option>
-                                <option value="Devops & cloud computing"> Devops & Cloud Computing</option>
+                                <option value="Devops & cloud computing">Devops & Cloud Computing</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -599,19 +596,15 @@
                 const star = document.createElement('div');
                 star.classList.add('star');
                 
-                // Random size
                 const size = Math.random() * 4 + 2;
                 star.style.width = size + 'px';
                 star.style.height = size + 'px';
                 
-                // Random position
                 star.style.left = Math.random() * 100 + '%';
                 
-                // Random animation duration
                 const duration = Math.random() * 15 + 10;
                 star.style.animationDuration = duration + 's';
                 
-                // Random delay
                 const delay = Math.random() * 5;
                 star.style.animationDelay = delay + 's';
                 
@@ -685,13 +678,14 @@
                 college: document.getElementById('college').value.trim(),
                 internship: document.getElementById('internship').value,
                 mode: document.getElementById('mode').value,
-                discount_applied: '50% DSU Student Discount'
+                discount_applied: document.getElementById('college').value.toLowerCase().includes('dsu')
             };
 
-            // Basic validation
+            // Client-side validation
             if (!formData.name || !formData.email || !formData.phone || !formData.college || !formData.internship || !formData.mode) {
                 errorMessage.textContent = 'Please fill all required fields.';
                 errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
                 return;
             }
 
@@ -700,6 +694,7 @@
             if (!emailPattern.test(formData.email)) {
                 errorMessage.textContent = 'Please enter a valid email address.';
                 errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
                 return;
             }
 
@@ -708,6 +703,7 @@
             if (!phonePattern.test(formData.phone.replace(/\D/g, ''))) {
                 errorMessage.textContent = 'Please enter a valid 10-digit phone number.';
                 errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
                 return;
             }
 
@@ -716,25 +712,37 @@
             submitBtn.textContent = 'Processing...';
 
             try {
-                const response = await fetch('http://127.0.0.1:8000/api/intern', {
+                console.log('Sending data to API:', formData); // Debugging
+                const response = await fetch('https://api.aceai.in/api/studentenquiry/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        // Uncomment and add API key if required
+                        // 'Authorization': 'Bearer YOUR_API_KEY'
                     },
                     body: JSON.stringify(formData)
                 });
 
+                console.log('API Response Status:', response.status); // Debugging
+                const responseData = await response.json();
+                console.log('API Response Data:', responseData); // Debugging
+
                 if (response.ok) {
+                    successMessage.textContent = 'Registration successful! You will receive further instructions via email.';
                     successMessage.style.display = 'block';
                     document.getElementById('internForm').reset();
                     successMessage.scrollIntoView({ behavior: 'smooth' });
                 } else {
-                    throw new Error('Registration failed');
+                    errorMessage.textContent = responseData.message || `Registration failed with status ${response.status}. Please try again or contact support.`;
+                    errorMessage.style.display = 'block';
+                    errorMessage.scrollIntoView({ behavior: 'smooth' });
                 }
             } catch (error) {
-                errorMessage.textContent = 'Registration failed. Please try again or contact support.';
+                console.error('API Error:', error); // Debugging
+                errorMessage.textContent = 'Network error or server issue. Please check your connection and try again.';
                 errorMessage.style.display = 'block';
-                console.error('Registration error:', error);
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Register Now';
